@@ -9,16 +9,7 @@ terraform {
 
 provider "docker" {}
 
+# わざと中身をめちゃくちゃにして、構文エラー（バグ）を仕込む
 resource "docker_image" "nginx" {
-  name         = "nginx:latest"
-  keep_locally = false
-}
-
-resource "docker_container" "nginx" {
-  image = docker_image.nginx.image_id
-  name  = "tutorial"
-  ports {
-    internal = 80
-    external = 8000
-  }
+  bad_attribute_named_wrong = "this_should_fail_ci"
 }
