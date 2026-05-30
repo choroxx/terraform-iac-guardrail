@@ -2,9 +2,10 @@ name: "Terraform CI with Guardrails"
 
 # メインブランチへのプルリクエスト（コード修正の提案）があった時に自動起動
 on:
+  push:
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   terraform-ci:
