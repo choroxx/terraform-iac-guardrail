@@ -1,0 +1,33 @@
+name: "Terraform CI with Guardrails"
+
+# メインブランチへのプルリクエスト（コード修正の提案）があった時に自動起動
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  terraform-ci:
+    name: "Lint and Validate Terraform"
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. リポジトリのコードをGitHubの実行環境にチェックアウト
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Terraformの実行環境をセットアップ
+      - name: Setup Terraform
+        uses: actions/setup-terraform@v3
+        with:
+          terraform_version: "1.8.0" # 2026年現在も安定のバージョン
+
+      # 3. ガードレール1：インフラコードのフォーマットチェック
+      # インデントや改行が汚いコードをここで自動的に弾く（チーム開発の基本）
+      - name: Terraform Format Check
+        run: terraform fmt -check
+
+      # 4. ガードレール2：コードの構文・論理チェック
+      # 設定値の型が違う、必須項目が抜けているなどのバグをデプロイ前に検出する
+      - name: Terraform Validate
+        run: terraform validate
