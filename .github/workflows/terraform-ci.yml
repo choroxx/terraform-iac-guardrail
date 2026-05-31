@@ -22,6 +22,10 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.8.0" # 2026年現在も安定のバージョン
+          
+      #2.5プラグインをダウンロードさせる
+      - name: Terraform Init
+        run: terraform init
 
       # 3. ガードレール1：インフラコードのフォーマットチェック
       # インデントや改行が汚いコードをここで自動的に弾く（チーム開発の基本）
